@@ -8,6 +8,7 @@ require('dotenv').config();
 const mongoose = require ('mongoose');
 const session = require('express-session');
 const methodOverride = require('method-override');
+const Video = require('./models/video.js');
 
 
 //___________________
@@ -20,7 +21,7 @@ const PORT = process.env.PORT || 3000;
 //Database
 //___________________
 // How to connect to the database either via heroku or locally
-const MONGODB_URI = process.env.MONGODB_URI;
+const DATABASE_URL = process.env.DATABASE_URL;
 
 // Connect to Mongo &
 // Fix Depreciation Warnings from Mongoose
@@ -75,17 +76,57 @@ app.use('/sessions', sessionsController);
 
 
 
-//dashboard view
+
+
+
+// //index & dashboard view
+// app.get('/', (req, res) => {
+// 	if (req.session.currentUser) {
+// 		res.render('dashboard.ejs', {
+// 			currentUser: req.session.currentUser
+// 		});
+// 	} else {
+// 		res.render('index.ejs', {
+// 			currentUser: req.session.currentUser,
+    
+// 		});
+// 	}
+// });
+
+
+//index & dashboard view
 app.get('/', (req, res) => {
+
 	if (req.session.currentUser) {
+    Video.find({}, (error, allVideos) => {
+      
 		res.render('dashboard.ejs', {
-			currentUser: req.session.currentUser
-		});
-	} else {
-		res.render('index.ejs', {
-			currentUser: req.session.currentUser
-		});
-	}
+			currentUser: req.session.currentUser,
+      videos: allVideos
+		})})
+    } else {
+      Video.find({}, (error, allVideos) => {
+        
+        res.render('index.ejs', {
+          currentUser: req.session.currentUser,
+          videos: allVideos
+        })})
+        }
+
+});
+
+
+// Seed
+const videoSeed = require('./models/videoSeed.js');
+
+app.get('/seed', (req, res) => {
+  console.log('seed route ran')
+  Video.deleteMany({}, (error, allVideos) => {});
+
+  Video.create(videoSeed, (error, data) => {
+		res.redirect('/');
+	});
+
 });
 
 //___________________
