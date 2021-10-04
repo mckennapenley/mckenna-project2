@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
+    />
+    <title>New Video</title>
+  </head>
+
+  <body>
+    <!-- Request using PUT to /videos/1 -->
+    <form action="/videos/<%=video._id%>?_method=PUT" method="POST">
+      <!-- name input-->
+      <label for="title"> TITLE </label>
+      <input
+        type="text"
+        id="title"
+        name="title"
+        value="<%=video.title%>"
+      /><br /><br />
+      <!-- image input-->
+      <label for="url"> VIDEO URL </label>
+      <input
+        type="text"
+        id="url"
+        name="url"
+        value="<%=video.url%>"
+      /><br /><br />
+      <!-- description input -->
+      <label for="tags"> TAGS </label>
+      <input type="text" id="tags" name="tags" value="<%=video.tags%>" />
+      <br /><br />
+      <br /><br />
+
+      <!-- submit button -->
+      <input type="submit" name="" value="Update Video" />
+    </form>
+  </body>
+</html>
