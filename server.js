@@ -97,6 +97,7 @@ app.use('/sessions', sessionsController);
 //index & dashboard view
 app.get('/', (req, res) => {
 
+
 	if (req.session.currentUser) {
     Video.find({}, (error, allVideos) => {
       
@@ -113,6 +114,22 @@ app.get('/', (req, res) => {
         })})
         }
 
+});
+
+ // New
+ app.get('/new', (req, res) => {
+	res.render('new.ejs');
+});
+
+// Create
+app.post('/', (req, res) => {
+
+	Video.create(req.body, (error, createdVideo) => {
+		console.log(error)
+		res.redirect('/');
+	});
+  console.log(req.body)
+  
 });
 
 

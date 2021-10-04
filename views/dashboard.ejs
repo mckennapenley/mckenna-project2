@@ -5,15 +5,36 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Porject 2</title>
+	<title>Dashboard</title>
 </head>
 
 <body>
-	<%- include('./partials/nav.ejs')  %>
-	<h1>Dashboard</h1>
+  <%- include('./partials/nav.ejs')  %>
+
+	<h1>Home</h1>
 
 
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/WkvJCGSNtpI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+	<% videos.forEach(video => { %>
+        
+		<div>
+			<h3><%= video.title; %> </h3>
+			
+			<iframe width="560" height="315" src="<%= video.url %>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+			tags: <%= video.tags.join(" ") %>
+
+			<% const votes = video.upvotes - video.downvotes %>
+
+			votes: <%= votes %>			
+
+
+		
+		</div>
+		<% }) %>
+
+
+		
+
+
+
 </body>
-
-</html>

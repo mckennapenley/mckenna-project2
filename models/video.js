@@ -10,8 +10,8 @@ const videoSchema = Schema({
     type: String, required: true
   },
   tags: {type: [String]}, 
-  upvotes: {type : Number},
-  downvotes: {type : Number},
+  upvotes: {type : Number, default: 0},
+  downvotes: {type : Number, default: 0},
 });
 
 //Video model
