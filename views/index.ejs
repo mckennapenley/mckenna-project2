@@ -26,9 +26,8 @@
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen
       ></iframe>
-
-      tags: <%= video.tags.join(" ") %> <% const votes = video.upvotes -
-      video.downvotes %> votes: <%= votes %>
+      <%- include('./partials/vote.ejs') %> tags: <%= video.tags.join(" ") %> <%
+      const votes = video.upvotes - video.downvotes %> votes: <%= votes %>
     </div>
     <% }) %>
   </body>

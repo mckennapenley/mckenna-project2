@@ -87,14 +87,22 @@ app.use("/sessions", sessionsController);
 
 //index & dashboard view
 app.get("/", (req, res) => {
-  const path = req.session.currentUser ? "dashoard.ejs" : "index.ejs";
+  const path = req.session.currentUser ? "dashboard.ejs" : "index.ejs";
 
-  Video.find({}, (error, allVideos) => {
-    res.render(path, {
-      currentUser: req.session.currentUser,
-      videos: allVideos,
+  // Video.find({}, (error, allVideos) => {
+  //   res.render(path, {
+  //     currentUser: req.session.currentUser,
+  //     videos: allVideos,
+  //   });
+  // });
+  Video.find({})
+    .sort("-votes")
+    .exec(function (error, allVideos) {
+      res.render(path, {
+        currentUser: req.session.currentUser,
+        videos: allVideos,
+      });
     });
-  });
 });
 
 // New

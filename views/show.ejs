@@ -1,38 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-		<title>Show</title>
-	</head>
-	<body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
+    />
+    <title>Show</title>
+  </head>
+  <body>
     <%- include('./partials/nav.ejs') %>
 
-	
-				<h1> <%=video.title %> </h1>
-        
-        <iframe
-        width="560"
-        height="315"
-        src="<%= video.url %>"
-        title="YouTube video player"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-      ></iframe>
+    <h1><%=video.title %></h1>
 
-      tags: <%= video.tags.join(" ") %> 
-      <% const votes = video.upvotes -
-      video.downvotes %> 
-      votes: <%= votes %>
+    <iframe
+      width="560"
+      height="315"
+      src="<%= video.url %>"
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
 
-       <form>
-          <a href="/videos/<%=video._id %>/edit">Edit</a>
-        </form>
-      
+    tags: <%= video.tags.join(" ") %> <% const votes = video.upvotes -
+    video.downvotes %> votes: <%= votes %> <% if(currentUser) { %>
 
-      <form action="/videos/<%= video._id %>?_method=DELETE" method="POST" >
-          <input type="submit" value="DELETE"/>
-			  </form>
-    </nav>
+    <form>
+      <a href="/videos/<%=video._id %>/edit">Edit</a>
+    </form>
+
+    <form action="/videos/<%= video._id %>?_method=DELETE" method="POST">
+      <input type="submit" value="DELETE" />
+    </form>
+
+    <% } %>
+  </body>
+</html>
