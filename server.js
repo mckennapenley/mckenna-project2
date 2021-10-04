@@ -102,6 +102,29 @@ app.get("/new", (req, res) => {
   res.render("new.ejs");
 });
 
+// Delete
+app.delete("/videos/:idx", (req, res) => {
+  console.log(req.params.idx);
+  Video.findByIdAndDelete(req.params.idx, (error, deletedVideo) => {
+    res.redirect("/");
+  });
+  console.log(req.params.idx);
+});
+
+// Update
+app.put("/videos/:idx", (req, res) => {
+  Video.findByIdAndUpdate(
+    req.params.idx,
+    req.body,
+    {
+      new: true,
+    },
+    (error, updatedVideo) => {
+      res.redirect(`/videos/${req.params.idx}`);
+    }
+  );
+});
+
 // Create
 app.post("/", (req, res) => {
   Video.create(req.body, (error, createdVideo) => {
@@ -116,6 +139,16 @@ app.get("/videos/:idx/edit", (req, res) => {
   Video.findById(req.params.idx, (err, foundVideo) => {
     res.render("edit.ejs", {
       video: foundVideo,
+    });
+  });
+});
+
+// Show
+app.get("/videos/:idx", (req, res) => {
+  Video.findById(req.params.idx, (err, foundVideo) => {
+    res.render("show.ejs", {
+      video: foundVideo,
+      currentUser: req.session.currentUser,
     });
   });
 });

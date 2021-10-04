@@ -15,7 +15,7 @@
     <% videos.forEach(video => { %>
 
     <div>
-      <h3><%= video.title; %></h3>
+      <a href="/videos/<%=video._id; %>"> <%= video.title; %> </a>
 
       <iframe
         width="560"
