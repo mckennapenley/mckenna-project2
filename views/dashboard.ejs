@@ -31,12 +31,15 @@
             ></iframe>
           </div>
 
+          }
+
           <div class="card-footer">
             tags: <%= video.tags.join(" ")%>
-            <button class="upvote" id="<%= video._id%>">Upvote</button>
-            <button class="downvote" id="<%= video._id%>">Downvote</button>
+            <i class="bi-hand-thumbs-up upvote" id="<%= video._id%>-up"></i>
+            <!-- <button class="upvote" id="<%= video._id%>-up">Upvote</button> -->
+            <button class="downvote" id="<%= video._id%>-down">Downvote</button>
 
-            <div class="votes" id="<%= video._id%>votes">
+            <div class="votes" id="<%= video._id%>-votes">
               votes: <%= video.votes %>
             </div>
           </div>
@@ -48,8 +51,16 @@
 </html>
 
 <script>
+  function toggleUpVote(videoId) {
+    let element = document.getElementById(`${videoId}-up`);
+    debugger;
+    element.classList.toggle("bi-hand-thumbs-up-fill");
+    element.classList.toggle("bi-hand-thumbs-up");
+  }
+
   $(".upvote").on("click", function (e) {
-    const videoId = e.currentTarget.id;
+    const videoId = e.currentTarget.id.split("-")[0];
+
     e.stopPropagation();
     e.stopImmediatePropagation();
     e.preventDefault();
@@ -57,8 +68,9 @@
       url: `/videos/${videoId}/upvote`,
       type: "PUT",
       success: function (data) {
-        $(`#${videoId}`).html("YOU UPVOTED");
-        $(`#${videoId}votes`).html(data.votes);
+        toggleUpVote(videoId);
+        $(`#${videoId}-up`).html("YOU UPVOTED");
+        $(`#${videoId}-votes`).html(data.votes);
         console.log("data.votes: " + data.votes);
         //update votes with updateVideo.votes?
       },
@@ -69,7 +81,7 @@
   });
 
   $(".downvote").on("click", function (e) {
-    const videoId = e.currentTarget.id;
+    const videoId = e.currentTarget.id.split("-")[0];
     e.stopPropagation();
     e.stopImmediatePropagation();
     e.preventDefault();
@@ -77,8 +89,8 @@
       url: `/videos/${videoId}/downvote`,
       type: "PUT",
       success: function (data) {
-        $(`#${videoId}`).html("YOU DOWNVOTED");
-        $(`#${videoId}votes`).html(data.votes);
+        $(`#${videoId}-down`).html("YOU DOWNVOTED");
+        $(`#${videoId}-votes`).html(data.votes);
         console.log("data.votes: " + data.votes);
         //update votes with updateVideo.votes?
       },
