@@ -1,1 +1,33 @@
-<button>Upvote</button> <button>Downvote</button>
+<head>
+  <script
+    src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+    crossorigin="anonymous"
+  ></script>
+</head>
+
+<script>
+  // using upvote class, create an onclick ajax call
+
+  $(".upvote").on("click", function (e) {
+    const videoId = e.currentTarget.id;
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+    e.preventDefault();
+    $.ajax({
+      url: `/videos/${videoId}/vote`,
+      type: "PUT",
+      success: function (data) {
+        console.log("success!!!!");
+        $(`#${videoId}`).html("YOU UPVOTED");
+      },
+      error: function () {
+        $("div").html("Sorry, an error occurred");
+      },
+    });
+  });
+
+  // Ajax call will PUT request to an endpoint in your server.js
+  // Server.js will increment the database as needed and return a 200 (success)
+  // Ajax will ".then" will receive (hopefully) a 200 and increment the upvote count in the view
+</script>

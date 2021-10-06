@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -26,9 +31,56 @@
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen
       ></iframe>
-      <%- include('./partials/vote.ejs') %> tags: <%= video.tags.join(" ") %> <%
-      const votes = video.upvotes - video.downvotes %> votes: <%= votes %>
+      tags: <%= video.tags.join(" ")%>
+      <button class="upvote" id="<%= video._id%>">Upvote</button>
+      <button class="downvote" id="<%= video._id%>">Downvote</button>
+
+      <div class="votes" id="<%= video._id%>votes">
+        votes: <%= video.votes %>
+      </div>
     </div>
     <% }) %>
   </body>
 </html>
+
+<script>
+  $(".upvote").on("click", function (e) {
+    const videoId = e.currentTarget.id;
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+    e.preventDefault();
+    $.ajax({
+      url: `/videos/${videoId}/upvote`,
+      type: "PUT",
+      success: function (data) {
+        $(`#${videoId}`).html("YOU UPVOTED");
+        $(`#${videoId}votes`).html(data.votes);
+        console.log("data.votes: " + data.votes);
+        //update votes with updateVideo.votes?
+      },
+      error: function () {
+        $("div").html("Sorry, an error occurred");
+      },
+    });
+  });
+
+  $(".downvote").on("click", function (e) {
+    const videoId = e.currentTarget.id;
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+    e.preventDefault();
+    $.ajax({
+      url: `/videos/${videoId}/downvote`,
+      type: "PUT",
+      success: function (data) {
+        $(`#${videoId}`).html("YOU DOWNVOTED");
+        $(`#${videoId}votes`).html(data.votes);
+        console.log("data.votes: " + data.votes);
+        //update votes with updateVideo.votes?
+      },
+      error: function () {
+        $("div").html("Sorry, an error occurred");
+      },
+    });
+  });
+</script>

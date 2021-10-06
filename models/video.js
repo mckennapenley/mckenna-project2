@@ -12,14 +12,11 @@ const videoSchema = Schema({
     required: true,
   },
   tags: { type: [String] },
-  upvotes: { type: Number, default: 0 },
-  downvotes: { type: Number, default: 0 },
   votes: {
     type: Number,
-    default: function () {
-      return this.upvotes - this.downvotes;
-    },
+    default: 0,
   },
+  comments: [{ user: String, comment: String }],
 });
 
 //Video model

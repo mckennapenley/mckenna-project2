@@ -1,34 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <%- include('./partials/head.ejs') %>
+
+    <title>Index</title>
   </head>
 
   <body>
     <%- include('./partials/nav.ejs') %>
 
-    <h1>Home</h1>
+    <h1 class="display-1 text-center">ASMR CURATED</h1>
 
-    <% videos.forEach(video => { %>
+    <div class="row">
+      <% videos.forEach(video => { %>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="header">
+            <a class="display-6" href="/videos/<%=video._id; %>">
+              <%= video.title; %>
+            </a>
+          </div>
+          <div class="card-body">
+            <iframe
+              width="560"
+              height="315"
+              src="<%= video.url %>"
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <div class="card-footer">tags: <%= video.tags.join(" ")%></div>
+          <!-- <button class="upvote" id="up<%= video._id%>">Upvote</button>
+      <button class="downvote" id="<%= video._id%>">Downvote</button>
 
-    <div>
-      <a href="/videos/<%=video._id; %>"> <%= video.title; %> </a>
-
-      <iframe
-        width="560"
-        height="315"
-        src="<%= video.url %>"
-        title="YouTube video player"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-      ></iframe>
-      <%- include('./partials/vote.ejs') %> tags: <%= video.tags.join(" ") %> <%
-      const votes = video.upvotes - video.downvotes %> votes: <%= votes %>
+      <div class="votes" id="<%= video._id%>votes">
+        votes: <%= video.votes %>
+      </div> -->
+        </div>
+      </div>
+      <% }) %>
     </div>
-    <% }) %>
   </body>
 </html>

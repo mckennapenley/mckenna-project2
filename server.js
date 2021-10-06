@@ -41,7 +41,8 @@ db.on("disconnected", () => console.log("mongo disconnected"));
 //___________________
 
 //use public folder for static assets
-app.use(express.static("public"));
+// app.use(express.static("public"));
+app.use(express.static(__dirname + "/public"));
 
 // populates req.body with parsed info from forms - if no data from forms will return an empty object {}
 app.use(express.urlencoded({ extended: true })); // extended: false - does not allow nested objects in query strings
@@ -129,6 +130,79 @@ app.put("/videos/:idx", (req, res) => {
     },
     (error, updatedVideo) => {
       res.redirect(`/videos/${req.params.idx}`);
+    }
+  );
+});
+
+// Comment
+app.put("/videos/:idx/comment", (req, res) => {
+  console.log("user" + req.body.userId);
+  console.log("comment" + req.body.comment);
+  console.log(req.params);
+  console.log(req.body);
+
+  Video.updateOne(
+    {
+      _id: req.params.idx,
+    },
+    {
+      $push: {
+        comments: {
+          comment: req.body.comment,
+          user: req.body.userId,
+        },
+      },
+    },
+
+    {
+      new: true,
+    },
+    (error, updatedVideo) => {
+      res.redirect(`/videos/${req.params.idx}`);
+    }
+  );
+});
+
+// Upvote
+app.put("/videos/:idx/upvote", (req, res) => {
+  console.log("hello i hit it");
+  Video.findOneAndUpdate(
+    { _id: req.params.idx },
+    // req.params.idx,
+    { $inc: { votes: 1 } },
+    { new: true },
+    (error, updateVideo) => {
+      // why is updateVideo not defined?
+      // console.log("updateVideo: " + updateVideo);
+      // console.log(req.params.idx);
+      console.log("updatedVideo.votes: " + updateVideo.votes);
+      // res.sendStatus(200);
+      res.json({
+        status: 200,
+        votes: updateVideo.votes,
+      });
+    }
+  );
+});
+
+// Downvote
+app.put("/videos/:idx/downvote", (req, res) => {
+  console.log("hello i hit it");
+  Video.findOneAndUpdate(
+    { _id: req.params.idx },
+    // req.params.idx,
+    { $inc: { votes: -1 } },
+    { new: true },
+    (error, updateVideo) => {
+      // why is updateVideo not defined?
+      // console.log("updateVideo: " + updateVideo);
+      // console.log(req.params.idx);
+      console.log("updatedVideo.votes: " + updateVideo.votes);
+      // res.sendStatus(200);
+      res.json({
+        status: 200,
+        votes: updateVideo.votes,
+      });
     }
   );
 });
