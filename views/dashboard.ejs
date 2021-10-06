@@ -1,45 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <script
-      src="https://code.jquery.com/jquery-3.6.0.min.js"
-      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-      crossorigin="anonymous"
-    ></script>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <%- include('./partials/head.ejs') %>
     <title>Dashboard</title>
   </head>
 
   <body>
     <%- include('./partials/nav.ejs') %>
 
-    <h1>Home</h1>
+    <h1 class="display-1 text-center">ASMR CURATED</h1>
 
-    <% videos.forEach(video => { %>
+    <div class="row">
+      <% videos.forEach(video => { %>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="header">
+            <a class="display-6" href="/videos/<%=video._id; %>">
+              <%= video.title; %>
+            </a>
+          </div>
+          <div class="card-body">
+            <iframe
+              width="560"
+              height="315"
+              src="<%= video.url %>"
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
 
-    <div>
-      <a href="/videos/<%=video._id; %>"> <%= video.title; %> </a>
+          <div class="card-footer">
+            tags: <%= video.tags.join(" ")%>
+            <button class="upvote" id="<%= video._id%>">Upvote</button>
+            <button class="downvote" id="<%= video._id%>">Downvote</button>
 
-      <iframe
-        width="560"
-        height="315"
-        src="<%= video.url %>"
-        title="YouTube video player"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-      ></iframe>
-      tags: <%= video.tags.join(" ")%>
-      <button class="upvote" id="<%= video._id%>">Upvote</button>
-      <button class="downvote" id="<%= video._id%>">Downvote</button>
-
-      <div class="votes" id="<%= video._id%>votes">
-        votes: <%= video.votes %>
+            <div class="votes" id="<%= video._id%>votes">
+              votes: <%= video.votes %>
+            </div>
+          </div>
+        </div>
       </div>
+      <% }) %>
     </div>
-    <% }) %>
   </body>
 </html>
 
