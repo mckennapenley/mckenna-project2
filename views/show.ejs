@@ -4,72 +4,84 @@
     <%- include('./partials/head.ejs') %>
     <title>Show</title>
   </head>
-  <body>
-    <%- include('./partials/nav.ejs') %>
+  <%- include('./partials/nav.ejs') %>
 
-    <div class="container">
-      <h1 class="display-1 text-center"><%=video.title %></h1>
+  <div class="container py-4">
+    <p class="display-6 text-center"><%=video.title %></p>
 
-      <div class="row">
-        <div class="col-9 text-center">
-          <iframe
-            width="560"
-            height="315"
-            src="<%= video.url %>"
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
-        </div>
-
+    <div class="row justify-content-center mb-3">
+      <div class="col-6 text-center">
+        <iframe
+          width="560"
+          height="315"
+          src="<%= video.url %>"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+      <div class="col-3">
         <% if(currentUser) { %>
-        <div class="col-3">
-          <form>
-            <a href="/videos/<%=video._id %>/edit">Edit</a>
-          </form>
 
-          <form action="/videos/<%= video._id %>?_method=DELETE" method="POST">
-            <input type="submit" value="DELETE" />
-          </form>
-        </div>
+        <form>
+          <a href="/videos/<%=video._id %>/edit">Edit</a>
+        </form>
+
+        <form
+          class="form"
+          action="/videos/<%= video._id %>?_method=DELETE"
+          method="POST"
+        >
+          <input type="submit" value="DELETE" />
+        </form>
+        <br />
+        <br />
+        <%}%>
+
+        <p>tags: <%= video.tags.join(" ") %></p>
+        <p>votes: <%= video.votes %></p>
       </div>
-      <%}%>
+    </div>
 
-      <div class="row text-center">
-        <div class="col-3"></div>
-        <div class="col">tags: <%= video.tags.join(" ") %></div>
-        <div class="col">votes: <%= video.votes %></div>
-        <div class="col-3"></div>
-      </div>
-
-      <% if(currentUser) { %>
-      <div class="row">
-        <div class="col-12">
-          <form
-            action="/videos/<%=video._id%>/comment?_method=PUT"
-            method="POST"
-          >
-            <label for="comment"> COMMENT </label>
-            <textarea id="comment" name="comment"> </textarea>
+    <% if(currentUser) { %>
+    <div class="row mb-3">
+      <div class="col-12">
+        <form
+          class="form"
+          action="/videos/<%=video._id%>/comment?_method=PUT"
+          method="POST"
+        >
+          <div class="mb-3">
+            <label class="form-label" for="comment"> COMMENT </label>
+            <textarea class="col-11" id="comment" name="comment"> </textarea>
             <input
               type="hidden"
               id="userId"
               name="userId"
               value="<%=currentUser.email%>"
             />
-            <!-- submit button -->
-            <input type="submit" name="" value="Add Comment" />
-          </form>
-        </div>
-      </div>
-      <% } %> <% video.comments.forEach((x)=>{ %>
-      <div class="row">
-        <div class="col-12">
-          <h4><%=x.user%> : <%=x.comment%></h4>
-          <% }) %>
-        </div>
+          </div>
+          <!-- submit button -->
+          <div class="d-grid">
+            <button
+              class="btn btn-primary btn-lg col-md-12"
+              type="submit"
+              name=""
+            >
+              ADD COMMENT
+            </button>
+          </div>
+        </form>
       </div>
     </div>
-  </body>
+
+    <% } %> <% video.comments.forEach((x)=>{ %>
+    <div class="row">
+      <div class="col-12">
+        <h5 class=><%=x.user%> : <%=x.comment%></h5>
+        <% }) %>
+      </div>
+    </div>
+  </div>
 </html>
