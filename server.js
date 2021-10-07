@@ -108,7 +108,9 @@ app.get("/", (req, res) => {
 
 // New
 app.get("/new", (req, res) => {
-  res.render("new.ejs");
+  res.render("new.ejs", {
+    currentUser: req.session.currentUser,
+  });
 });
 
 // Delete
@@ -221,6 +223,7 @@ app.get("/videos/:idx/edit", (req, res) => {
   Video.findById(req.params.idx, (err, foundVideo) => {
     res.render("edit.ejs", {
       video: foundVideo,
+      currentUser: req.session.currentUser,
     });
   });
 });

@@ -31,13 +31,13 @@
             ></iframe>
           </div>
 
-          }
-
           <div class="card-footer">
             tags: <%= video.tags.join(" ")%>
             <i class="bi-hand-thumbs-up upvote" id="<%= video._id%>-up"></i>
-            <!-- <button class="upvote" id="<%= video._id%>-up">Upvote</button> -->
-            <button class="downvote" id="<%= video._id%>-down">Downvote</button>
+            <i
+              class="bi-hand-thumbs-down downvote"
+              id="<%= video._id%>-down"
+            ></i>
 
             <div class="votes" id="<%= video._id%>-votes">
               votes: <%= video.votes %>
@@ -51,15 +51,34 @@
 </html>
 
 <script>
-  function toggleUpVote(videoId) {
-    let element = document.getElementById(`${videoId}-up`);
-    debugger;
-    element.classList.toggle("bi-hand-thumbs-up-fill");
-    element.classList.toggle("bi-hand-thumbs-up");
+  function toggleVoteFill(videoId, direction) {
+    let element = document.getElementById(`${videoId}-${direction}`);
+
+    element.classList.toggle(`bi-hand-thumbs-${direction}-fill`);
+    element.classList.toggle(`bi-hand-thumbs-${direction}`);
   }
+  // function toggleUpVote(videoId) {
+  //   let element = document.getElementById(`${videoId}-up`);
+
+  //   element.classList.toggle("bi-hand-thumbs-up-fill");
+  //   element.classList.toggle("bi-hand-thumbs-up");
+  // }
+
+  // function toggleDownVote(videoId) {
+  //   let element = document.getElementById(`${videoId}-down`);
+
+  //   element.classList.toggle("bi-hand-thumbs-down-fill");
+  //   element.classList.toggle("bi-hand-thumbs-down");
+  // }
 
   $(".upvote").on("click", function (e) {
     const videoId = e.currentTarget.id.split("-")[0];
+
+    // Turn off click events on upvote button
+    $(e.currentTarget).off("click");
+
+    // Hide downvote button since they've voted already
+    $(e.currentTarget).siblings(".downvote").hide();
 
     e.stopPropagation();
     e.stopImmediatePropagation();
@@ -68,11 +87,8 @@
       url: `/videos/${videoId}/upvote`,
       type: "PUT",
       success: function (data) {
-        toggleUpVote(videoId);
-        $(`#${videoId}-up`).html("YOU UPVOTED");
-        $(`#${videoId}-votes`).html(data.votes);
-        console.log("data.votes: " + data.votes);
-        //update votes with updateVideo.votes?
+        toggleVoteFill(videoId, "up");
+        $(`#${videoId}-votes`).html(`votes: ${data.votes}`);
       },
       error: function () {
         $("div").html("Sorry, an error occurred");
@@ -81,7 +97,15 @@
   });
 
   $(".downvote").on("click", function (e) {
+    // if (!clicked) {
     const videoId = e.currentTarget.id.split("-")[0];
+
+    // Turn off click events on downvote button
+    $(e.currentTarget).off("click");
+
+    // Hide upvote button since they've voted already
+    $(e.currentTarget).siblings(".upvote").hide();
+
     e.stopPropagation();
     e.stopImmediatePropagation();
     e.preventDefault();
@@ -89,14 +113,17 @@
       url: `/videos/${videoId}/downvote`,
       type: "PUT",
       success: function (data) {
-        $(`#${videoId}-down`).html("YOU DOWNVOTED");
-        $(`#${videoId}-votes`).html(data.votes);
-        console.log("data.votes: " + data.votes);
+        toggleVoteFill(videoId, "down");
+        // clicked = true;
+        // $(`#${videoId}-down`).html("YOU DOWNVOTED");
+        $(`#${videoId}-votes`).html(`votes: ${data.votes}`);
+
         //update votes with updateVideo.votes?
       },
       error: function () {
         $("div").html("Sorry, an error occurred");
       },
     });
+    // }
   });
 </script>

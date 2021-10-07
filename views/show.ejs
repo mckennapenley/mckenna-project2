@@ -1,59 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
-    />
+    <%- include('./partials/head.ejs') %>
     <title>Show</title>
   </head>
   <body>
     <%- include('./partials/nav.ejs') %>
 
-    <h1><%=video.title %></h1>
+    <div class="container">
+      <h1 class="display-1 text-center"><%=video.title %></h1>
 
-    <iframe
-      width="560"
-      height="315"
-      src="<%= video.url %>"
-      title="YouTube video player"
-      frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen
-    ></iframe>
+      <div class="row">
+        <div class="col-9 text-center">
+          <iframe
+            width="560"
+            height="315"
+            src="<%= video.url %>"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
 
-    tags: <%= video.tags.join(" ") %> <% const votes = video.upvotes -
-    video.downvotes %> votes: <%= votes %> <% if(currentUser) { %>
+        <% if(currentUser) { %>
+        <div class="col-3">
+          <form>
+            <a href="/videos/<%=video._id %>/edit">Edit</a>
+          </form>
 
-    <form>
-      <a href="/videos/<%=video._id %>/edit">Edit</a>
-    </form>
+          <form action="/videos/<%= video._id %>?_method=DELETE" method="POST">
+            <input type="submit" value="DELETE" />
+          </form>
+        </div>
+      </div>
+      <%}%>
 
-    <form action="/videos/<%= video._id %>?_method=DELETE" method="POST">
-      <input type="submit" value="DELETE" />
-    </form>
+      <div class="row text-center">
+        <div class="col-3"></div>
+        <div class="col">tags: <%= video.tags.join(" ") %></div>
+        <div class="col">votes: <%= video.votes %></div>
+        <div class="col-3"></div>
+      </div>
 
-    <form action="/videos/<%=video._id%>/comment?_method=PUT" method="POST">
-      <label for = 'comment'> COMMENT </label>
-      <textarea   id = 'comment' name = "comment"> </textarea>
-    <input type = 'hidden' id = 'userId' name = "userId" value = "<%=currentUser.email%>" />
-				<!-- submit button -->
-				<input type="submit" name="" value="Add Comment">
-			</form>
-
-
-    <% } %>
-
-   
-
-    
-      <% video.comments.forEach((x)=>{ %>
-        <h2><%=x.user%> : <%=x.comment%></h2>
-      <% }) %>
-     
-      
-    </ul>
+      <% if(currentUser) { %>
+      <div class="row">
+        <div class="col-12">
+          <form
+            action="/videos/<%=video._id%>/comment?_method=PUT"
+            method="POST"
+          >
+            <label for="comment"> COMMENT </label>
+            <textarea id="comment" name="comment"> </textarea>
+            <input
+              type="hidden"
+              id="userId"
+              name="userId"
+              value="<%=currentUser.email%>"
+            />
+            <!-- submit button -->
+            <input type="submit" name="" value="Add Comment" />
+          </form>
+        </div>
+      </div>
+      <% } %> <% video.comments.forEach((x)=>{ %>
+      <div class="row">
+        <div class="col-12">
+          <h4><%=x.user%> : <%=x.comment%></h4>
+          <% }) %>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

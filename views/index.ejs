@@ -14,13 +14,13 @@
     <div class="row">
       <% videos.forEach(video => { %>
       <div class="col-md-6">
-        <div class="card">
-          <div class="header">
-            <a class="display-6" href="/videos/<%=video._id; %>">
-              <%= video.title; %>
-            </a>
-          </div>
+        <div class="card text-center">
           <div class="card-body">
+            <div class="card-title text-center">
+              <a class="display-6" href="/videos/<%=video._id; %>">
+                <%= video.title; %>
+              </a>
+            </div>
             <iframe
               width="560"
               height="315"
@@ -30,8 +30,8 @@
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen
             ></iframe>
+            <p class="card-text">votes: <%=video.votes%></p>
           </div>
-          <div class="card-footer">tags: <%= video.tags.join(" ")%></div>
         </div>
       </div>
       <% }) %>
