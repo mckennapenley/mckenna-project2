@@ -8,36 +8,32 @@
   <body>
     <%- include('./partials/nav.ejs') %>
 
-    <h1 class="display-1 text-center">ASMR CURATED</h1>
-
     <div class="row">
       <% videos.forEach(video => { %>
-      <div class="col-md-6">
-        <div class="card">
-          <div class="header">
-            <a class="display-6" href="/videos/<%=video._id; %>">
-              <%= video.title; %>
-            </a>
-          </div>
+      <div class="col-md-6 mb-4 mt-5">
+        <div class="card text-center align-items-center border-0">
+          <iframe
+            width="560"
+            height="315"
+            src="<%= video.url %>"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
           <div class="card-body">
-            <iframe
-              width="560"
-              height="315"
-              src="<%= video.url %>"
-              title="YouTube video player"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
-          </div>
-
-          <div class="card-footer">
-            tags: <%= video.tags.join(" ")%>
-            <i class="bi-hand-thumbs-up upvote" id="<%= video._id%>-up"></i>
-            <i
-              class="bi-hand-thumbs-down downvote"
-              id="<%= video._id%>-down"
-            ></i>
+            <a href="<%= video.url %>" class="btn btn-primary"
+              ><%= video.title %></a
+            >
+            <h6 class="card-title">Tags</h6>
+            <p class="card-text"><%= video.tags.join(" ")%></p>
+            <div>
+              <i class="bi-hand-thumbs-up upvote" id="<%= video._id%>-up"></i>
+              <i
+                class="bi-hand-thumbs-down downvote"
+                id="<%= video._id%>-down"
+              ></i>
+            </div>
 
             <div class="votes" id="<%= video._id%>-votes">
               votes: <%= video.votes %>
