@@ -2,18 +2,23 @@
 <html lang="en">
   <head>
     <%- include('./partials/head.ejs') %>
-    <title>New Video</title>
+    <title>New VIDEO</title>
   </head>
 
   <body>
     <%- include('./partials/nav.ejs') %>
 
     <div class="container py-4">
-      <form id="contactForm">
+      <form action="/" method="POST">
         <div class="mb-3">
           <label class="form-label" for="title">Title</label>
           <br />
-          <input class="col-md-12" type="text" id="title" name="title" />
+          <input
+            class="col-md-12"
+            type="text"
+            id="title"
+            name="title"
+          /><br /><br />
         </div>
 
         <div class="mb-3">
@@ -29,7 +34,11 @@
         </div>
 
         <div class="d-grid">
-          <button class="btn btn-primary btn-lg col-md-12" type="submit">
+          <button
+            class="btn btn-primary btn-lg col-md-12"
+            type="submit"
+            name=""
+          >
             Submit
           </button>
         </div>

@@ -2,7 +2,6 @@
 <html lang="en">
   <head>
     <%- include('./partials/head.ejs') %>
-
     <title>Index</title>
   </head>
 
@@ -11,24 +10,33 @@
 
     <div class="row">
       <% videos.forEach(video => { %>
-      <div class="col-md-6">
-        <div class="card text-center">
-          <div class="card-body">
+      <div class="col-md-6 mb-4 mt-5">
+        <div class="card text-center align-items-center border-0">
+          <!-- <div class="card-body">
             <div class="card-title text-center">
               <a class="display-6" href="/videos/<%=video._id; %>">
                 <%= video.title; %>
               </a>
+            </div> -->
+          <iframe
+            width="560"
+            height="315"
+            src="<%= video.url %>"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+          <div class="card-body">
+            <a href="/videos/<%=video._id; %>" class="btn btn-primary"
+              ><%= video.title %></a
+            >
+            <h6 class="card-title">Tags</h6>
+            <p class="card-text"><%= video.tags.join(" ")%></p>
+
+            <div class="votes" id="<%= video._id%>-votes">
+              votes: <%= video.votes %>
             </div>
-            <iframe
-              width="560"
-              height="315"
-              src="<%= video.url %>"
-              title="YouTube video player"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
-            <p class="card-text">votes: <%=video.votes%></p>
           </div>
         </div>
       </div>
