@@ -19,12 +19,6 @@ videoRouter.get("/seed", (req, res) => {
 videoRouter.get("/", (req, res) => {
   const path = req.session.currentUser ? "dashboard.ejs" : "index.ejs";
 
-  // Video.find({}, (error, allVideos) => {
-  //   res.render(path, {
-  //     currentUser: req.session.currentUser,
-  //     videos: allVideos,
-  //   });
-  // });
   Video.find({})
     .sort("-votes")
     .exec(function (error, allVideos) {
@@ -103,11 +97,6 @@ videoRouter.put("/:idx/upvote", (req, res) => {
     { $inc: { votes: 1 } },
     { new: true },
     (error, updateVideo) => {
-      // why is updateVideo not defined?
-      // console.log("updateVideo: " + updateVideo);
-      // console.log(req.params.idx);
-      console.log("updatedVideo.votes: " + updateVideo.votes);
-      // res.sendStatus(200);
       res.json({
         status: 200,
         votes: updateVideo.votes,
@@ -121,15 +110,10 @@ videoRouter.put("/:idx/downvote", (req, res) => {
   console.log("hello i hit it");
   Video.findOneAndUpdate(
     { _id: req.params.idx },
-    // req.params.idx,
     { $inc: { votes: -1 } },
     { new: true },
     (error, updateVideo) => {
-      // why is updateVideo not defined?
-      // console.log("updateVideo: " + updateVideo);
-      // console.log(req.params.idx);
       console.log("updatedVideo.votes: " + updateVideo.votes);
-      // res.sendStatus(200);
       res.json({
         status: 200,
         votes: updateVideo.votes,
