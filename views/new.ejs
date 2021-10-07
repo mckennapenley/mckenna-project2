@@ -9,7 +9,7 @@
     <%- include('./partials/nav.ejs') %>
 
     <div class="container py-4">
-      <form action="/" method="POST">
+      <form action="/videos" method="POST">
         <div class="mb-3">
           <label class="form-label" for="title">Title</label>
           <br />
@@ -34,11 +34,7 @@
         </div>
 
         <div class="d-grid">
-          <button
-            class="btn btn-primary btn-lg col-md-12"
-            type="submit"
-            name=""
-          >
+          <button class="btn submit-btn btn-lg col-md-12" type="submit" name="">
             Submit
           </button>
         </div>

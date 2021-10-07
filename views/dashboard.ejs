@@ -10,7 +10,7 @@
 
     <div class="row">
       <% videos.forEach(video => { %>
-      <div class="col-md-6 mb-4 mt-5">
+      <div class="col-xl-6 mb-4 mt-5">
         <div class="card text-center align-items-center border-0">
           <iframe
             width="560"
@@ -22,10 +22,10 @@
             allowfullscreen
           ></iframe>
           <div class="card-body">
-            <a href="/videos/<%=video._id; %>" class="btn btn-primary"
+            <a href="/videos/<%=video._id; %>" class="btn video-title-btn"
               ><%= video.title %></a
             >
-            <h6 class="card-title">Tags</h6>
+            <h6 class="card-title mt-4">Tags</h6>
             <p class="card-text"><%= video.tags.join(" ")%></p>
             <div>
               <i class="bi-hand-thumbs-up upvote" id="<%= video._id%>-up"></i>
@@ -35,8 +35,9 @@
               ></i>
             </div>
 
+            <h6 class="card-title mt-4">Votes</h6>
             <div class="votes" id="<%= video._id%>-votes">
-              votes: <%= video.votes %>
+              <%= video.votes %>
             </div>
           </div>
         </div>
@@ -53,19 +54,6 @@
     element.classList.toggle(`bi-hand-thumbs-${direction}-fill`);
     element.classList.toggle(`bi-hand-thumbs-${direction}`);
   }
-  // function toggleUpVote(videoId) {
-  //   let element = document.getElementById(`${videoId}-up`);
-
-  //   element.classList.toggle("bi-hand-thumbs-up-fill");
-  //   element.classList.toggle("bi-hand-thumbs-up");
-  // }
-
-  // function toggleDownVote(videoId) {
-  //   let element = document.getElementById(`${videoId}-down`);
-
-  //   element.classList.toggle("bi-hand-thumbs-down-fill");
-  //   element.classList.toggle("bi-hand-thumbs-down");
-  // }
 
   $(".upvote").on("click", function (e) {
     const videoId = e.currentTarget.id.split("-")[0];
@@ -84,7 +72,7 @@
       type: "PUT",
       success: function (data) {
         toggleVoteFill(videoId, "up");
-        $(`#${videoId}-votes`).html(`votes: ${data.votes}`);
+        $(`#${videoId}-votes`).html(`${data.votes}`);
       },
       error: function () {
         $("div").html("Sorry, an error occurred");
@@ -112,7 +100,7 @@
         toggleVoteFill(videoId, "down");
         // clicked = true;
         // $(`#${videoId}-down`).html("YOU DOWNVOTED");
-        $(`#${videoId}-votes`).html(`votes: ${data.votes}`);
+        $(`#${videoId}-votes`).html(`${data.votes}`);
 
         //update votes with updateVideo.votes?
       },

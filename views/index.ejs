@@ -10,7 +10,7 @@
 
     <div class="row">
       <% videos.forEach(video => { %>
-      <div class="col-md-6 mb-4 mt-5">
+      <div class="col-xl-6 mb-4 mt-5">
         <div class="card text-center align-items-center border-0">
           <!-- <div class="card-body">
             <div class="card-title text-center">
@@ -28,14 +28,15 @@
             allowfullscreen
           ></iframe>
           <div class="card-body">
-            <a href="/videos/<%=video._id; %>" class="btn btn-primary"
+            <a href="/videos/<%=video._id; %>" class="btn video-title-btn"
               ><%= video.title %></a
             >
-            <h6 class="card-title">Tags</h6>
+            <h6 class="card-title mt-4">Tags</h6>
             <p class="card-text"><%= video.tags.join(" ")%></p>
 
+            <h6 class="card-title mt-4">Votes</h6>
             <div class="votes" id="<%= video._id%>-votes">
-              votes: <%= video.votes %>
+              <%= video.votes %>
             </div>
           </div>
         </div>

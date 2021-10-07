@@ -1,13 +1,12 @@
-<nav class="navbar navbar-expand-sm bg-secondary text-black navbar-dark">
+<nav class="navbar navbar-expand-sm text-black navbar-dark ">
   <div class="container">
     <ul class="navbar-nav">
-      <li class="navbar-text text-info"> AMSR CURATED </li> 
+      <li class="nav-item">
+        <a class="nav-link" href="/videos">ASMR CURATED</a>
+      </li>
       <% if(currentUser) { %>
       <li class="nav-item">
-        <a class="nav-link" href="/">Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/new">Add Video</a>
+        <a class="nav-link" href="/videos/new">Add Video</a>
       </li>
       </ul>
       <ul class="nav navbar-nav navbar-right"> 
@@ -18,9 +17,6 @@
       </li>
       </ul>
       <% } else { %>
-      <li class="nav-item">
-        <a class="nav-link" href="/">Home</a>
-      </li>
       <li class="nav-item">
         <a class="nav-link" href="/users/new">Register</a>
       </li>

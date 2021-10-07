@@ -20,7 +20,7 @@ userRouter.post("/", (req, res) => {
   );
 
   User.create(req.body, (error, createdUser) => {
-    res.redirect("/");
+    res.redirect("/videos");
   });
 });
 

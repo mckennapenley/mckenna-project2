@@ -20,7 +20,7 @@ sessionsRouter.get("/new", (req, res) => {
 // Delete (logout route)
 sessionsRouter.delete("/", (req, res) => {
   req.session.destroy((error) => {
-    res.redirect("/");
+    res.redirect("/videos");
   });
 });
 
@@ -50,7 +50,7 @@ sessionsRouter.post("/", (req, res) => {
 
           // redirect back to our home page
 
-          res.redirect("/");
+          res.redirect("/videos");
         } else {
           // if the passwords don't match
           res.send("Oops! Invalid credentials.");
