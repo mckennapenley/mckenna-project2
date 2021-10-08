@@ -60,6 +60,11 @@ app.use(
   })
 );
 
+// Home Route
+app.get("/", (req, res) => {
+  res.redirect("/videos");
+});
+
 //___________________
 // Routes/Controllers
 //___________________
