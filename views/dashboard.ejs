@@ -7,6 +7,25 @@
 
   <body>
     <%- include('./partials/nav.ejs') %>
+    <div class="container-fluid">
+      <div class="row justify-content-md-center">
+        <div class="col-md-auto">
+          <!-- Add filter -->
+          <form id="form1" class="" action="/videos/filter" method="GET">
+            <input
+              class=""
+              type="text"
+              id="filter"
+              name="filter"
+              value="<%= searchQuery %>"
+              placeholder="Search"
+            />
+            <button type="submit" form="form1" value="Submit" class="btn" id= "search">
+              <i class="bi-search"></i>
+            </button>
+        </div>
+      </div>
+    </div>
 
     <div class="row">
       <% videos.forEach(video => { %>
@@ -48,6 +67,13 @@
 </html>
 
 <script>
+$(".form1").submit(function(e){
+  alert( "Handler for .submit() called." );
+  e.preventDefault();
+});
+
+
+
   function toggleVoteFill(videoId, direction) {
     let element = document.getElementById(`${videoId}-${direction}`);
 

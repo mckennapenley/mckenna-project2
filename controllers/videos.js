@@ -25,8 +25,27 @@ videoRouter.get("/", (req, res) => {
       res.render(path, {
         currentUser: req.session.currentUser,
         videos: allVideos,
+        searchQuery: "",
       });
     });
+});
+
+//filter index & dashboard view
+videoRouter.get("/filter", (req, res) => {
+  const path = req.session.currentUser ? "dashboard.ejs" : "index.ejs";
+  if (req.query.filter === "") {
+    res.redirect("/");
+  } else {
+    Video.find({ tags: `${req.query.filter}` })
+      .sort("-votes")
+      .exec(function (error, allVideos) {
+        res.render(path, {
+          currentUser: req.session.currentUser,
+          videos: allVideos,
+          searchQuery: req.query.filter,
+        });
+      });
+  }
 });
 
 // New
